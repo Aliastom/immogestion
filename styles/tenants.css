@@ -1,0 +1,39 @@
+.tenant-list {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.tenant-list th {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tenant-list td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tenant-list tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tenant-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.tenant-status.active {
+  background-color: #48bb78;
+}
+
+.tenant-status.late {
+  background-color: #ed8936;
+}
+
+.tenant-status.ended {
+  background-color: #e53e3e;
+}

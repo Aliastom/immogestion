@@ -1,0 +1,17 @@
+[auth]
+# Enable email confirmations
+enable_email_signup = true
+enable_email_autoconfirm = false
+site_url = "https://votre-domaine.com"
+additional_redirect_urls = ["https://votre-domaine.com/*"]
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+
+[storage]
+file_size_limit = "50MB"
+
+[api]
+enabled_apis = ["rest", "realtime", "storage"]

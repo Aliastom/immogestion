@@ -1,0 +1,104 @@
+.tax-calculator {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tax-form-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tax-result-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s;
+}
+
+.tax-result-card:hover {
+  transform: translateY(-2px);
+}
+
+.tax-comparison-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.tax-comparison-table th,
+.tax-comparison-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tax-comparison-table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.tax-comparison-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tax-comparison-table td.positive {
+  color: #48bb78;
+}
+
+.tax-comparison-table td.negative {
+  color: #e53e3e;
+}
+
+.tax-bracket-bar {
+  height: 24px;
+  border-radius: 12px;
+  margin: 4px 0;
+  transition: width 0.3s ease;
+}
+
+.tax-bracket-0 {
+  background-color: #48bb78;
+}
+
+.tax-bracket-11 {
+  background-color: #4299e1;
+}
+
+.tax-bracket-30 {
+  background-color: #ed8936;
+}
+
+.tax-bracket-41 {
+  background-color: #ed64a6;
+}
+
+.tax-bracket-45 {
+  background-color: #e53e3e;
+}
+
+/* Styles pour la vue comparative */
+.simulation-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.simulation-card.current {
+  border-left: 4px solid #48bb78;
+}
+
+.simulation-card.forecast {
+  border-left: 4px solid #4299e1;
+}
+
+.difference-positive {
+  color: #48bb78;
+}
+
+.difference-negative {
+  color: #e53e3e;
+}

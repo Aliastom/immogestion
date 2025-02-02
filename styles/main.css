@@ -1,0 +1,153 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  margin-left: 250px;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #6c2bd9;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5a23b5;
+}
+
+.input-field {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 0.5rem;
+  color: white;
+  width: 100%;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #6c2bd9;
+}
+
+/* Styles pour les sections d'intégration */
+.integration-section {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.integration-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.integration-content {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+/* Styles pour la gestion des documents */
+.document-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.document-card {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s;
+}
+
+.document-card:hover {
+  transform: translateY(-2px);
+}
+
+.document-preview {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.upload-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upload-zone:hover {
+  border-color: #6c2bd9;
+  background-color: rgba(108, 43, 217, 0.1);
+}
+
+/* Styles pour les alertes et notifications */
+.alert {
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: rgba(72, 187, 120, 0.2);
+  border: 1px solid #48bb78;
+}
+
+.alert-error {
+  background-color: rgba(229, 62, 62, 0.2);
+  border: 1px solid #e53e3e;
+}
+
+.alert-warning {
+  background-color: rgba(236, 201, 75, 0.2);
+  border: 1px solid #ecc94b;
+}
+
+/* Styles pour les modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #1a202c;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}

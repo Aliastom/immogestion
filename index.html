@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Application de gestion immobilière intelligente pour les propriétaires et investisseurs immobiliers">
+    <meta name="keywords" content="gestion immobilière, immobilier, propriétaire, investisseur, location, bien immobilier">
+    <meta property="og:title" content="Gestion Immobilière Intelligente">
+    <meta property="og:description" content="Application de gestion immobilière intelligente pour les propriétaires et investisseurs immobiliers">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gestion Immobilière Intelligente">
+    <meta name="twitter:description" content="Application de gestion immobilière intelligente pour les propriétaires et investisseurs immobiliers">
+    <title>Gestion Immobilière Intelligente</title>
+    
+    <!-- Bibliothèques externes -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics-compat.js"></script>
+    
+    <!-- Configuration -->
+    <script>
+    // Configuration Firebase directement dans le HTML pour s'assurer qu'elle est chargée en premier
+    window.firebaseConfig = {
+      apiKey: "AIzaSyCHo9wZCojTSuomCjsqT7x84UpCmhXd26I",
+      authDomain: "gestionimmo-8242b.firebaseapp.com",
+      projectId: "gestionimmo-8242b",
+      storageBucket: "gestionimmo-8242b.firebasestorage.app",
+      messagingSenderId: "84368712006",
+      appId: "1:84368712006:web:94f28baba6cbfa67764547",
+      measurementId: "G-1TSHS81LPD"
+    };
+
+    // Initialize Firebase immédiatement
+    firebase.initializeApp(window.firebaseConfig);
+    firebase.analytics();
+    </script>
+    
+    <!-- Styles personnalisés -->
+    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/dashboard.css" rel="stylesheet">
+    <link href="styles/properties.css" rel="stylesheet">
+    <link href="styles/tenants.css" rel="stylesheet">
+    <link href="styles/finances.css" rel="stylesheet">
+    <link href="styles/taxes.css" rel="stylesheet">
+    <link href="styles/auth.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <div id="root"></div>
+    
+    <!-- Scripts de l'application -->
+    <script type="text/babel" src="utils/theme.js"></script>
+    <script type="text/babel" src="utils/store.js"></script>
+    <script type="text/babel" src="utils/hooks.js"></script>
+    <script type="text/babel" src="utils/api.js"></script>
+    <script type="text/babel" src="utils/helpers.js"></script>
+    <script type="text/babel" src="utils/firebase.js"></script>
+    
+    <!-- Auth Components -->
+    <script type="text/babel" src="components/auth/AuthProvider.js"></script>
+    <script type="text/babel" src="components/auth/LoginPage.js"></script>
+    <script type="text/babel" src="components/auth/SignUpPage.js"></script>
+    
+    <!-- Layout Components -->
+    <script type="text/babel" src="components/layout/Sidebar.js"></script>
+    <script type="text/babel" src="components/layout/Header.js"></script>
+    <script type="text/babel" src="components/layout/Layout.js"></script>
+    
+    <!-- Main Components -->
+    <script type="text/babel" src="components/common/Alert.js"></script>
+    <script type="text/babel" src="components/common/Button.js"></script>
+    <script type="text/babel" src="components/common/Input.js"></script>
+    <script type="text/babel" src="components/common/Loading.js"></script>
+    <script type="text/babel" src="components/common/Modal.js"></script>
+    
+    <!-- App Entry -->
+    <script type="text/babel" src="app.js"></script>
+    <script type="text/babel" src="components/dashboard/Dashboard.js"></script>
+    <script type="text/babel" src="components/dashboard/StatCard.js"></script>
+    <script type="text/babel" src="components/dashboard/PropertyCard.js"></script>
+    <script type="text/babel" src="components/properties/Properties.js"></script>
+    <script type="text/babel" src="components/tenants/Tenants.js"></script>
+    <script type="text/babel" src="components/finances/Finances.js"></script>
+    <script type="text/babel" src="components/finances/FinanceReports.js"></script>
+    <script type="text/babel" src="components/finances/TransactionForm.js"></script>
+    <script type="text/babel" src="components/finances/TransactionList.js"></script>
+    <script type="text/babel" src="components/tenants/TenantDetail.js"></script>
+    <script type="text/babel" src="components/tenants/TenantForm.js"></script>
+    <script type="text/babel" src="components/tenants/TenantList.js"></script>
+    <script type="text/babel" src="components/properties/PropertyDetail.js"></script>
+    <script type="text/babel" src="components/properties/PropertyForm.js"></script>
+    <script type="text/babel" src="components/properties/PropertyList.js"></script>
+    <script type="text/babel" src="components/dashboard/FinanceChart.js"></script>
+    <script type="text/babel" src="components/properties/PropertyCard.js"></script>
+    <script type="text/babel" src="components/taxes/TaxCalculator.js"></script>
+    <script type="text/babel" src="components/taxes/TaxSimulation.js"></script>
+    <script type="text/babel" src="components/settings/Settings.js"></script>
+    <script type="text/babel" src="components/settings/BankAccountCallback.js"></script>
+    <script type="text/babel" src="components/dashboard/AssetDistributionChart.js"></script>
+    <script type="text/babel" src="components/ai/AIAssistant.js"></script>
+    <script type="text/babel" src="utils/config.js"></script>
+    <script type="text/babel" src="components/settings/PersonalInfoForm.js"></script>
+    <script type="text/babel" src="components/integrations/TaxServiceIntegration.js"></script>
+    <script type="text/babel" src="components/integrations/RealEstateValuation.js"></script>
+    <script type="text/babel" src="components/documents/DocumentManager.js"></script>
+    <script type="text/babel" src="components/documents/DocumentUpload.js"></script>
+    <script type="text/babel" src="components/documents/DocumentViewer.js"></script>
+    <script type="text/babel" src="utils/supabase.js"></script>
+</body>
+</html>
