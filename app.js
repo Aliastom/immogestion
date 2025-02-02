@@ -39,16 +39,6 @@ function AppContent() {
         return <DocumentManager />;
       case 'taxes':
         return <TaxSimulation />;
-      case 'integrations':
-        return (
-          <div className="p-6 space-y-6">
-            <h1 className="text-2xl font-bold mb-6">Intégrations</h1>
-            <TaxServiceIntegration />
-            <div className="mt-6">
-              <RealEstateValuation />
-            </div>
-          </div>
-        );
       case 'settings':
         return <Settings />;
       default:

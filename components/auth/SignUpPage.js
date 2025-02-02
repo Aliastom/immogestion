@@ -1,5 +1,4 @@
 function SignUpPage() {
-  const { login } = useAuth();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [formData, setFormData] = React.useState({
@@ -16,8 +15,6 @@ function SignUpPage() {
   });
 
   const validateForm = () => {
-    console.log('Validating form data:', formData);
-
     if (!formData.email || !formData.password || !formData.confirmPassword) {
       throw new Error('Veuillez remplir tous les champs obligatoires');
     }
@@ -48,7 +45,6 @@ function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    console.log('Form submission started');
 
     try {
       setLoading(true);
@@ -57,95 +53,41 @@ function SignUpPage() {
         return;
       }
 
-      console.log('Form validated, creating user account');
-
-      // Create user account
-      const { user } = await auth.createUserWithEmailAndPassword(
-        formData.email,
-        formData.password
-      );
-
-      console.log('User account created:', user);
-
-      // Prepare user data
-      const userData = {
-        uid: user.uid,
+      const { data: { user }, error } = await window.supabase.auth.signUp({
         email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone,
-        accountType: formData.accountType,
-        companyName: formData.companyName,
-        siret: formData.siret,
-        displayName: `${formData.firstName} ${formData.lastName}`,
-        createdAt: new Date(),
-        lastLoginAt: new Date()
-      };
-
-      console.log('Creating user profile with data:', userData);
-
-      // Create user profile in Firestore
-      await db.collection('users').doc(user.uid).set(userData);
-
-      console.log('User profile created in Firestore');
-
-      // Update Firebase user profile
-      await user.updateProfile({
-        displayName: userData.displayName
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone: formData.phone,
+            account_type: formData.accountType,
+            company_name: formData.companyName,
+            siret: formData.siret
+          }
+        }
       });
 
-      console.log('Firebase user profile updated');
+      if (error) throw error;
 
-      // Login the user
-      await login('email', {
-        email: formData.email,
-        password: formData.password
-      });
+      // Créer le profil utilisateur dans la table profiles
+      const { error: profileError } = await window.supabase
+        .from('profiles')
+        .insert([{
+          id: user.id,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone: formData.phone,
+          company_name: formData.companyName,
+          siret: formData.siret,
+          account_type: formData.accountType
+        }]);
 
-      console.log('User logged in successfully');
+      if (profileError) throw profileError;
+
+      setError('Vérifiez votre email pour confirmer votre inscription.');
     } catch (error) {
-      console.error('Sign up error:', error);
-      setError(error.message);
-      
-      // Log detailed error information
-      if (error.code) {
-        console.error('Firebase error code:', error.code);
-      }
-      if (error.details) {
-        console.error('Error details:', error.details);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      console.log('Starting Google sign in');
-      
-      const provider = new firebase.auth.GoogleAuthProvider();
-      const result = await auth.signInWithPopup(provider);
-      
-      console.log('Google sign in successful:', result.user);
-
-      // Create or update user profile
-      const userData = {
-        uid: result.user.uid,
-        email: result.user.email,
-        displayName: result.user.displayName,
-        photoURL: result.user.photoURL,
-        accountType: 'individual',
-        createdAt: new Date(),
-        lastLoginAt: new Date()
-      };
-
-      await db.collection('users').doc(result.user.uid).set(userData, { merge: true });
-      console.log('User profile created/updated in Firestore');
-
-    } catch (error) {
-      console.error('Google sign in error:', error);
+      console.error('Erreur d\'inscription:', error.message);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -181,37 +123,6 @@ function SignUpPage() {
 
         <div className="bg-gray-800 rounded-lg p-6 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex justify-center mb-6">
-              <button
-                type="button"
-                onClick={handleGoogleSignIn}
-                disabled={loading}
-                className="w-full bg-white text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center font-medium hover:bg-gray-100 transition-colors disabled:opacity-50"
-              >
-                {loading ? (
-                  <div className="w-6 h-6 border-4 border-gray-900 border-t-transparent rounded-full animate-spin mr-2"></div>
-                ) : (
-                  <img
-                    src="https://www.google.com/favicon.ico"
-                    alt="Google"
-                    className="w-6 h-6 mr-2"
-                  />
-                )}
-                S'inscrire avec Google
-              </button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-700"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-800 text-gray-400">
-                  Ou avec votre email
-                </span>
-              </div>
-            </div>
-
             <div className="grid grid-cols-2 gap-4">
               <Input
                 label="Prénom"

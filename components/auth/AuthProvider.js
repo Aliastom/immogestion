@@ -1,55 +1,35 @@
 function AuthProvider({ children }) {
   const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
-  // Simuler une vérification d'authentification au démarrage
   React.useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
-  const login = async (credentials) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Simuler une requête d'authentification
-      if (credentials.email === 'demo@example.com' && credentials.password === 'demo123') {
-        const userData = {
-          id: '1',
-          email: credentials.email,
-          name: 'Demo User',
-          role: 'admin'
-        };
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-      } else {
-        throw new Error('Email ou mot de passe incorrect');
+    // Vérifier la session actuelle
+    const { data: { subscription } } = window.supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
       }
-    } catch (error) {
-      setError(error.message);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+    );
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-  };
+    // Cleanup
+    return () => subscription.unsubscribe();
+  }, []);
 
   const value = {
     user,
     loading,
     error,
-    login,
-    logout,
     setError
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={value}>

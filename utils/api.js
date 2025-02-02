@@ -21,8 +21,13 @@ async function handleResponse(response) {
 const propertyAPI = {
   async list() {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/properties`);
-      return handleResponse(response);
+      const { data, error } = await window.supabase
+        .from('properties')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data;
     } catch (error) {
       reportError(error);
       throw error;
@@ -31,8 +36,14 @@ const propertyAPI = {
 
   async get(id) {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/properties/${id}`);
-      return handleResponse(response);
+      const { data, error } = await window.supabase
+        .from('properties')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      return data;
     } catch (error) {
       reportError(error);
       throw error;
@@ -41,12 +52,14 @@ const propertyAPI = {
 
   async create(data) {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/properties`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
+      const { data: newProperty, error } = await window.supabase
+        .from('properties')
+        .insert([data])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return newProperty;
     } catch (error) {
       reportError(error);
       throw error;
@@ -55,12 +68,15 @@ const propertyAPI = {
 
   async update(id, data) {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/properties/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
+      const { data: updatedProperty, error } = await window.supabase
+        .from('properties')
+        .update(data)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return updatedProperty;
     } catch (error) {
       reportError(error);
       throw error;
@@ -69,183 +85,12 @@ const propertyAPI = {
 
   async delete(id) {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/properties/${id}`, {
-        method: 'DELETE'
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  }
-};
+      const { error } = await window.supabase
+        .from('properties')
+        .delete()
+        .eq('id', id);
 
-// Fonctions API pour les locataires
-const tenantAPI = {
-  async list() {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/tenants`);
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async get(id) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/tenants/${id}`);
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async create(data) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/tenants`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async update(id, data) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/tenants/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async delete(id) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/tenants/${id}`, {
-        method: 'DELETE'
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  }
-};
-
-// Fonctions API pour les transactions financières
-const financeAPI = {
-  async listTransactions(period) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/finances/transactions?period=${period}`);
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async createTransaction(data) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/finances/transactions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async getReport(period) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/finances/reports?period=${period}`);
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  }
-};
-
-// Fonctions API pour l'assistant IA
-const aiAPI = {
-  async analyze(data) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/ai/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async predict(data) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/ai/predict`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  }
-};
-
-// Fonctions API pour les documents
-const documentAPI = {
-  async upload(file, type) {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('type', type);
-
-      const response = await fetch(`${API_CONFIG.BASE_URL}/documents/upload`, {
-        method: 'POST',
-        body: formData
-      });
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async list(type) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/documents?type=${type}`);
-      return handleResponse(response);
-    } catch (error) {
-      reportError(error);
-      throw error;
-    }
-  },
-
-  async delete(id) {
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/documents/${id}`, {
-        method: 'DELETE'
-      });
-      return handleResponse(response);
+      if (error) throw error;
     } catch (error) {
       reportError(error);
       throw error;
@@ -254,10 +99,6 @@ const documentAPI = {
 };
 
 // Export des APIs
-const api = {
-  property: propertyAPI,
-  tenant: tenantAPI,
-  finance: financeAPI,
-  ai: aiAPI,
-  document: documentAPI
+window.api = {
+  property: propertyAPI
 };
